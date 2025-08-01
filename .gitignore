@@ -1,0 +1,22 @@
+# Build
+/target/
+/build/
+
+# IDE/STS settings
+.project
+.classpath
+.settings/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files (prevent API key leaks)
+.env
+*.key
+*.pem
+*.secret
