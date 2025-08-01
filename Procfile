@@ -1,0 +1,1 @@
+web: java -jar target/emailwritersb-0.0.1-SNAPSHOT
