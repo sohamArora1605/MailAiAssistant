@@ -31,10 +31,4 @@ It integrates seamlessly with Gmail to help you **reply faster, summarize better
 - **Deployment:** Render (Backend)
 
 ---
-
-## 📦 Installation
-
-> **Note:** Currently **unlisted** on Chrome Web Store. You can install manually.
-
-1. **Download ZIP** or clone the repository.
-2. Open **Google Chrome** and go to:
+2. Open **Google Chrome** and go to:(https://www.linkedin.com/posts/sohamarora16_just-built-a-smart-gmail-chrome-extension-activity-7357352801544359936-7736?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD7oiXQBr2jvqmMmbpNzJiIgr2MOd7oWDRI) for demo video
