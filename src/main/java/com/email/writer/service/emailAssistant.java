@@ -16,47 +16,35 @@ public class emailAssistant {
 	private final WebClient webclient=WebClient.create();
 	
 	
-	@Value("${GEMINI_KEY}")
-	private String GEMINIKEY;
+	@Value("${groq.api.key}")
+	private String GROQ_API_KEY;
 	
-	@Value("${GEMINI_URL}")
-	private String GEMINIURL;
-	
-	//build prompt
-	//craft the request
-	//contact the llm
-	//send the request
-	//collect the reponse
-	//return the response 
-	
+	@Value("${groq.api.url}")
+	private String GROQ_URL;
 	
 	public String mailHandler(EmailRequest emailRequest)
 	{
 		String prompt=promptBuilder(emailRequest);
 		
 		Map<String, Object> requestBody=Map.of(
-				"contents",new Object[] {
+				"model", "qwen/qwen3-32b",
+				"messages", new Object[] {
 						Map.of(
-							"parts",new Object[] {
-									
-									Map.of("text",prompt)
-									
-									
-							}
-								
-								)
-						
-						
-						
-						
-				}
-				
-				);
-		
+								"role", "user",
+								"content", prompt
+						)
+				},
+				"temperature", 0.6,
+				"max_completion_tokens", 4096,
+				"top_p", 0.95,
+				"stream", false,
+				"reasoning_effort", "default"
+		);
 		
 		String response=webclient.post()
-		.uri(GEMINIURL+GEMINIKEY)
+		.uri(GROQ_URL)
 		.header("Content-Type","application/json")
+		.header("Authorization", "Bearer " + GROQ_API_KEY)
 		.bodyValue(requestBody)
 		.retrieve()
 		.bodyToMono(String.class).block();
@@ -66,16 +54,16 @@ public class emailAssistant {
 
 	private String extractResponseContent(String response) {
 		try {
-			ObjectMapper mapper=new ObjectMapper()
-;
+			ObjectMapper mapper=new ObjectMapper();
 			JsonNode rootNode=mapper.readTree(response);
-			return rootNode.path("candidates")
+			String content = rootNode.path("choices")
 					.get(0)
+					.path("message")
 					.path("content")
-					.path("parts")
-					.get(0)
-					.path("text")
 					.asText();
+			
+			// Remove <think> tags from Qwen models
+			return content.replaceAll("(?s)<think>.*?</think>", "").trim();
 		}
 		catch (Exception e)
 		{
