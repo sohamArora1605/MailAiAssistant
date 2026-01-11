@@ -16,10 +16,10 @@ public class emailAssistant {
 	private final WebClient webclient=WebClient.create();
 	
 	
-	@Value("${GROQ_API_KEY}")
+	@Value("${groq.api.key}")
 	private String GROQ_API_KEY;
 	
-	@Value("${GROQ_URL}")
+	@Value("${groq.api.url}")
 	private String GROQ_URL;
 	
 	public String mailHandler(EmailRequest emailRequest)
